@@ -45,6 +45,7 @@ const PlayerButton = styled.div`
   justify-content: center;
   align-items: center;
   margin-right:55px;
+  cursor: pointer;
   svg{
     font-size: 75px;
     
