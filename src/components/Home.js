@@ -8,7 +8,14 @@ MdOutlineFavorite,MdFavorite} from "react-icons/md"
 import { useEffect } from "react"
 
 
+import {useSelector,useDispatch} from "react-redux"
+import{add,remove} from "../Redux/actions/index"
+
 export default function Home(){
+
+    const favorite = useSelector(state=>state.favorites);
+    const dispatch = useDispatch();
+
     const [songs,setSongs] = useState([])
     const [favorites,setFavorites] = useState([])
     
@@ -56,6 +63,15 @@ export default function Home(){
         console.log("favoritei")
         setFavorites([...favorites,song])
         setSongs(songs)
+        console.log(favorite)
+        if(!favorite.arr.includes(song)){
+            dispatch(add(song))
+        }else{
+            dispatch(remove(song))
+        }
+            
+        
+        //dispatch(add(song))
     }
 
     function isFavorite(song){
