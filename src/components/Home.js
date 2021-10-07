@@ -17,21 +17,103 @@ export default function Home(){
     const dispatch = useDispatch();
 
     const [songs,setSongs] = useState([])
-    const [favorites,setFavorites] = useState([])
-    
-    
+
     useEffect(()=>{
         console.log("testei")
         axios.get("http://localhost:4000/topSongs")
         .then((response)=>{
+            const song = response.data.tracks.data
+            let favoriteObj = {}
+        favorite.arr.forEach((item)=>{
+            favoriteObj[item.id]=true
+        })
 
-           
-
-          console.log(response.data.tracks.data)
-          setSongs(response.data.tracks.data)
+        const newFavorites=song.map((item)=>{
+            if(favoriteObj[item.id]){
+                return(
+                    {...item,isFavorite:true}
+                )
+            }else{
+                return(
+                    {...item,isFavorite:false}
+                )
+            }
+        })
+        console.log("inicial newFavorites")
+         console.log(newFavorites)
+        setSongs(newFavorites)
         })
         
     },[])
+
+    useEffect(()=>{
+        //return
+        console.log("entrou no useEffect")
+        console.log(favorite)
+        let favoriteObj = {}
+        favorite.arr.forEach((item)=>{
+            favoriteObj[item.id]=true
+        })
+       console.log("objeto")
+        console.log(favoriteObj)
+        //return
+
+        const newFavorites = songs.map((item)=>{
+            if(favoriteObj[item.id]){
+                return(
+                    {...item,isFavorite:true}
+                )
+            }else{
+                return(
+                    {...item,isFavorite:false}
+                )
+            }
+        })
+
+         console.log(newFavorites)
+      setSongs(newFavorites)
+        
+    },[favorite])
+
+
+
+   function Favorite(song){
+    console.log("favoritei")
+    console.log(favorite.arr)
+    console.log(favorite.arr.length)
+    console.log(song)
+    delete song.isFavorite
+    
+     let includes = false
+
+     console.log(song.id)
+
+    for(let i=0; i<favorite.arr.length;i++){
+      
+        if(favorite.arr[i].id===song.id){
+            console.log(favorite.arr[i].id)
+            console.log(song.id)
+            console.log(i)
+            includes=true
+        }
+    }
+
+    console.log(includes)
+    if(includes===false){
+        console.log("add")
+     
+        dispatch(add(song))
+        return
+    }else{
+        console.log("remove")
+      
+         dispatch(remove(song))
+         return
+    }
+      
+}
+
+
    
     function Test(){
         console.log("testei")
@@ -46,8 +128,8 @@ export default function Home(){
       }
 
        function Test2(){
-            console.log(songs)
-            console.log(favorites)
+            //console.log(songs)
+            console.log(favorite)
         }
     
 
@@ -59,30 +141,16 @@ export default function Home(){
         return `${minutes}:${seconds}`
       }
 
-    function Favorite(song){
-        console.log("favoritei")
-        setFavorites([...favorites,song])
-        setSongs(songs)
-        console.log(favorite)
-        if(!favorite.arr.includes(song)){
-            dispatch(add(song))
-        }else{
-            dispatch(remove(song))
-        }
-            
-        
-        //dispatch(add(song))
-    }
 
-    function isFavorite(song){
-        favorites?.forEach((s)=>{
-            if(s===song){
-                return true
-            }
-        })
+    // function isFavorite(song){
+    //     favorites?.forEach((s)=>{
+    //         if(s===song){
+    //             return true
+    //         }
+    //     })
 
-        return false
-    }
+    //     return false
+    // }
     
     return(
         <>
@@ -141,7 +209,7 @@ align-items: center;
 
 `
 
-const Songs= styled.div`
+const Songs= styled.li`
 border: 1px solid blue;
 margin-bottom: 30px;
 `

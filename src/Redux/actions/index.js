@@ -1,4 +1,4 @@
-export const add = (song)=>{
+export const add =  (song)=>{
     return{
         type:"add",
         item:song

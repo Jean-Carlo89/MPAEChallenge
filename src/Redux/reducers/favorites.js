@@ -3,8 +3,9 @@ const initialState ={
     arr:[]
 }
 
-const FavoriteSongsReducer = (state=initialState, action) =>{
+const FavoriteSongsReducer =  (state=initialState, action) =>{
         if(action.type==="add"){
+            
             return { 
                 ...state,
                 arr: [...state.arr,action.item],
@@ -12,16 +13,20 @@ const FavoriteSongsReducer = (state=initialState, action) =>{
         }
 
         if(action.type==="remove"){
-           return {
-               ...state,
-               arr:state.arr.filter((item)=>{
-                return item!==action.item
-            })
-
-           }
+          const filtered = state.arr.filter((item)=>{
+              return item!==action.item
+          })
+          console.log('filtered')
+          console.log(filtered)
+          return {
+              ...state,
+              arr:filtered
+          }
         }
 
-        return state
+        return {
+            arr:[]
+        }
 }
 
 export default FavoriteSongsReducer;
