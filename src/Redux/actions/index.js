@@ -1,7 +1,7 @@
 export const add =  (song)=>{
     return{
         type:"add",
-        item:song
+        item:{...song,isFavorite:true}
     }
 }
 

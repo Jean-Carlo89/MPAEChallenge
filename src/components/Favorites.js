@@ -25,6 +25,10 @@ export default function Favorites(){
     return `${minutes}:${seconds}`
   }
 
+  useEffect(()=>{
+    console.log(favorite)
+  },[favorite])
+
   function toSong(song){
     window.open(song.link, '_blank').focus();
   }
@@ -34,8 +38,7 @@ export default function Favorites(){
     console.log(favorite.arr)
     console.log(favorite.arr.length)
     console.log(song)
-    delete song.isFavorite
-    
+
      let includes = false
 
      console.log(song.id)
@@ -49,7 +52,22 @@ export default function Favorites(){
             includes=true
         }
     }
-  }
+
+    console.log(includes)
+    if(includes===false){
+        console.log("add")
+     
+        dispatch(add(song))
+        return
+    }else{
+        console.log("remove")
+      
+         dispatch(remove(song))
+         return
+    }
+      
+}
+
 
     return(
         <>
@@ -59,7 +77,7 @@ export default function Favorites(){
       
         <SongsContainer>
             
-            <Button onClick={()=>history.push("/favorites")}>Ir para favoritos</Button>
+            <Button onClick={()=>history.push("/")}>Ir para Tela principal</Button>
             {songs?.map((song)=>{
                 return(
                     <Songs key = {song.id} >

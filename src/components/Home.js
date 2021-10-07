@@ -18,6 +18,7 @@ export default function Home(){
     const dispatch = useDispatch();
 
     const [songs,setSongs] = useState([])
+    const [favorites,setFavorites]= useState([])
 
     useEffect(()=>{
         console.log("testei")
@@ -52,6 +53,9 @@ export default function Home(){
         //return
         console.log("entrou no useEffect")
         console.log(favorite)
+        
+        setFavorites(favorite.arr)
+        
         let favoriteObj = {}
         favorite.arr.forEach((item)=>{
             favoriteObj[item.id]=true
@@ -77,6 +81,30 @@ export default function Home(){
         
     },[favorite])
 
+    // useEffect(()=>{
+    //     console.log(favorites)
+    //     let favoriteObj = {}
+        
+    //     favorites.forEach((item)=>{
+    //         favoriteObj[item.id]=true
+    //     })
+
+    //     const newFavorites = songs.map((item)=>{
+    //                 if(favoriteObj[item.id]){
+    //                     return(
+    //                         {...item,isFavorite:true}
+    //                     )
+    //                 }else{
+    //                     return(
+    //                         {...item,isFavorite:false}
+    //                     )
+    //                 }
+    //             })
+        
+    //             console.log(newFavorites)
+    //             setSongs(newFavorites)
+        
+    // },[favorites])
 
 
    function Favorite(song){
@@ -84,8 +112,7 @@ export default function Home(){
     console.log(favorite.arr)
     console.log(favorite.arr.length)
     console.log(song)
-    delete song.isFavorite
-    
+
      let includes = false
 
      console.log(song.id)
