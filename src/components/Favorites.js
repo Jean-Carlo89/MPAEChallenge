@@ -11,75 +11,25 @@ import {Link,useHistory} from "react-router-dom"
 import {useSelector,useDispatch} from "react-redux"
 import{add,remove} from "../Redux/actions/index"
 
-export default function Home(){
+export default function Favorites(){
     const history = useHistory()
     const favorite = useSelector(state=>state.favorites);
-   
-    const dispatch = useDispatch();
+   const dispatch = useDispatch();
+   const songs = favorite.arr
 
-    const [songs,setSongs] = useState([])
+   function getMinutes(time){
+    const minutes = Math.floor(time / 60);
 
-    useEffect(()=>{
-        console.log("testei")
-        axios.get("http://localhost:4000/topSongs")
-        .then((response)=>{
-            const song = response.data.tracks.data
-            let favoriteObj = {}
-        favorite.arr.forEach((item)=>{
-            favoriteObj[item.id]=true
-        })
+    const seconds = time - minutes * 60;
 
-        const newFavorites=song.map((item)=>{
-            if(favoriteObj[item.id]){
-                return(
-                    {...item,isFavorite:true}
-                )
-            }else{
-                return(
-                    {...item,isFavorite:false}
-                )
-            }
-        })
-        console.log("inicial newFavorites")
-         console.log(newFavorites)
-        setSongs(newFavorites)
-        })
+    return `${minutes}:${seconds}`
+  }
 
-        
-    },[])
+  function toSong(song){
+    window.open(song.link, '_blank').focus();
+  }
 
-    useEffect(()=>{
-        //return
-        console.log("entrou no useEffect")
-        console.log(favorite)
-        let favoriteObj = {}
-        favorite.arr.forEach((item)=>{
-            favoriteObj[item.id]=true
-        })
-       console.log("objeto")
-        console.log(favoriteObj)
-        //return
-
-        const newFavorites = songs.map((item)=>{
-            if(favoriteObj[item.id]){
-                return(
-                    {...item,isFavorite:true}
-                )
-            }else{
-                return(
-                    {...item,isFavorite:false}
-                )
-            }
-        })
-
-        console.log(newFavorites)
-        setSongs(newFavorites)
-        
-    },[favorite])
-
-
-
-   function Favorite(song){
+  function Favorite(song){
     console.log("favoritei")
     console.log(favorite.arr)
     console.log(favorite.arr.length)
@@ -99,57 +49,12 @@ export default function Home(){
             includes=true
         }
     }
+  }
 
-    console.log(includes)
-    if(includes===false){
-        console.log("add")
-     
-        dispatch(add(song))
-        return
-    }else{
-        console.log("remove")
-      
-         dispatch(remove(song))
-         return
-    }
-      
-}
-
-
-   
-    function Test(){
-        console.log("testei")
-        axios.get("http://localhost:4000/topSongs")
-        .then((response)=>{
-
-
-          console.log(response.data.tracks.data)
-          setSongs(response.data.tracks.data)
-        })
-      }
-
-       function Test2(){
-            
-            console.log(favorite)
-           
-        }
-    
-
-      function getMinutes(time){
-        const minutes = Math.floor(time / 60);
-
-        const seconds = time - minutes * 60;
-
-        return `${minutes}:${seconds}`
-      }
-
-      function toSong(song){
-        window.open(song.link, '_blank').focus();
-      }
     return(
         <>
-        <button onClick={Test}>test</button> 
-        <button onClick={Test2}>test2</button> 
+       {/* // <button onClick={Test}>test</button> 
+       // <button onClick={Test2}>test2</button>  */}
     <Container>
       
         <SongsContainer>
