@@ -14,8 +14,9 @@ const SongsContainer = styled.ul`
 width: 2048px;
 height:auto;
 display: flex;
-flex-direction:column;
-align-items: center;
+flex-wrap: wrap;
+border:1px solid red;
+justify-content: center;
 overflow: auto;
 background-image: url("https://wallpaperaccess.com/full/4729119.png");
 opacity: 0.95;
@@ -24,7 +25,10 @@ margin-top: 50px;
 `
 
 const Songs= styled.li`
-margin-bottom: 30px;
+
+display: inline-block;
+margin:20px;
+
 `
 const SongCover=styled.div`
 width:500px;
@@ -52,6 +56,7 @@ opacity: 0.95;
 
      p{
         font-size: 20px;
+        margin:10px 0;
     }
 
     span{
@@ -93,7 +98,7 @@ const Button=styled.button`
     font-size: 35px;
     position: fixed;
     top: 130px;
-    right: 460px;
+    right: 10%;
     border-radius: 30px;
     z-index:3;
     cursor: pointer;

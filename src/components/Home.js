@@ -135,7 +135,7 @@ export default function Home(){
                     : <InfiniteScroll
                             dataLength={songs.length}
                             loader={<h4>Carregando mais músicas...</h4>}
-                            
+                            className="scroller"
                             next={fetchData}
                             hasMore={hasMore}
                             >
