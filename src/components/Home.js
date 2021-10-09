@@ -34,6 +34,11 @@ export default function Home(){
 
 
     useEffect(()=>{
+        if(type==="initial"){
+            searchToptracks()
+            return
+        }
+
         if(type==="Top tracks"){
             searchToptracks()
             return
