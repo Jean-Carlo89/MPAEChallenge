@@ -5,7 +5,15 @@
 .scroller{
     display: flex;
     flex-wrap: wrap;
-    
+    border: 1px solid blueviolet;
     justify-content: center;
     width: 1500px;
+    
+}
+
+@media(max-width:2080px){
+    
+    .scroller{
+        width:100%;
+    }
 }

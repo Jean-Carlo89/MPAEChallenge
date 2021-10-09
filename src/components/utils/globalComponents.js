@@ -22,6 +22,13 @@ background-image: url("https://wallpaperaccess.com/full/4729119.png");
 opacity: 0.95;
 margin-top: 80px;
 
+@media(max-width:2080px){
+    //background-repeat:repeat-y;
+   //background-repeat:repeat-x;
+   width: 95%;
+   background-size: 100% auto;
+}
+
 `
 
 const Songs= styled.li`
@@ -108,6 +115,23 @@ const Button=styled.button`
     border-radius: 30px;
     z-index:3;
     cursor: pointer;
+    
+    svg{
+        display: none;
+    }
+   
+    @media(max-width:800px){
+        height: 40px;
+        background-color: black;
+        svg{
+            color: yellow;
+            display: block;
+        }
+
+        p{
+            display: none;
+        }
+    }
     
 
 `

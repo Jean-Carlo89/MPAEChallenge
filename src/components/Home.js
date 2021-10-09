@@ -11,6 +11,7 @@ import {Button,FullSong,FavoriteSong,SongInfo,ActionButtons,SongCover,SongsConta
 import Loader from "react-loader-spinner";
 import "./utils/css/loader.css"
 import Searchbar from "./Searchbar"
+import{BsFillStarFill} from "react-icons/bs"
 
 export default function Home(){
     const history = useHistory()
@@ -175,7 +176,7 @@ export default function Home(){
       return(
         <>
             <Container>
-            <Button onClick={()=>history.push("/favorites")}>Ir para favoritos</Button>
+            <Button onClick={()=>history.push("/favorites")}><p>Ir para favoritos </p><BsFillStarFill/></Button>
             <Searchbar songs={songs} setSongs={setSongs} setLoading={setLoading} updateFavorites={updateFavorites}/>
             <SongsContainer >
                     

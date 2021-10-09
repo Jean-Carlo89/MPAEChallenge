@@ -11,6 +11,9 @@ import {Button,FullSong,FavoriteSong,SongInfo,ActionButtons,SongCover,SongsConta
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {useSelector,useDispatch} from "react-redux"
 import{add,remove} from "../Redux/actions/index"
+import "./utils/css/loader.css"
+
+import{AiOutlineHome} from "react-icons/ai"
 
 export default function Favorites(){
     const history = useHistory()
@@ -69,7 +72,7 @@ export default function Favorites(){
 return(
     <>
         <Container>
-        <Button onClick={()=>history.push("/")}>Ir para Tela principal</Button>
+        <Button onClick={()=>history.push("/")}><p>Ir para Tela principal</p> <AiOutlineHome/></Button>
             <SongsContainer >
                 
            
@@ -78,7 +81,7 @@ return(
             {songs?.map((song)=>{
                                 return(
                                     <Songs key = {song.id} >
-                                        <SongCover background=  {song.picture_big || song.cover_big || song.album.cover_big }/>
+                                        <SongCover background={song.picture_big  || song.cover_big || song.album.cover_big }/>
                                         <SongInfo>
                                             {song.duration ?<p><span>Duração</span>: {getMinutes(song.duration)} </p> :null}
                                             {song.title ? <p><span>Título</span>: {song.title} </p>:null}

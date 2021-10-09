@@ -1,28 +1,22 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import { useEffect, useState, useRef } from "react";
-import { Link } from 'react-router-dom';
 import {useSelector,useDispatch} from "react-redux"
 import { IoMdArrowDropdown } from 'react-icons/io';
 import{updateType, updateValue} from "../Redux/actions/index"
 
 export default function Searchbar(props) {
     const [isOpen, setIsOpen] = useState(false);
-  //const options = props.options
-  
-  
-  
   const options = [{value:"Top tracks", id:4},{value:"artist",id:1},{value:"album",id:2},{value:"track",id:3}]
   
   const toggling = () => setIsOpen(!isOpen);
 
   function onOptionClicked(option)  {
-   // props.setSelected(option);
    dispatch(updateType(option.value))
     setIsOpen(false);
   };
    
-  //  const [value, setValue] = useState("");
+  
   const value = useSelector(state=>state.searchbar.value);
     let searchRef = useRef();
 
@@ -37,14 +31,11 @@ export default function Searchbar(props) {
             props.setLoading(true)
             axios.get(`http://localhost:4000/allData?type=${type}&search=${value}`)
             .then((response)=>{
-                console.log("entrou aqui")
                 
                 const song = response.data.data
                 
-                //   setLoadding(false)
                 console.log(song)
                 
-               // props.setSongs(song)
                props.setSongs(props.updateFavorites(song))
                 
                 props.setLoading(false)
@@ -121,15 +112,16 @@ const SearchHolder = styled.div`
     @media(max-width: 750px){
         width: 100%;
     }
+    border: 1px solid red;
     position: fixed;
     z-index: 4;
 
     svg{
         font-size: 80px;
         color: black;
-        position: fixed;
+        position: absolute;
         top: 0px;
-        right: 1001px;
+        right: 0px;
     }
 `;
 
