@@ -12,8 +12,6 @@ const SearchbarReducer =  (state=initialState, action) =>{
             }
         }
 
-        
-
         return {
             ...state,
         }
