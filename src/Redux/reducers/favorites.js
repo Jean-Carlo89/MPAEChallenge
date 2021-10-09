@@ -27,7 +27,8 @@ const FavoriteSongsReducer =  (state=initialState, action) =>{
         }
 
         return {
-            arr:[]
+           ...state,
+           
         }
 }
 

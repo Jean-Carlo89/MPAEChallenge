@@ -1,9 +1,10 @@
 import FavoriteSongsReducer from "./favorites"
-
+import SearchbarReducer from "./searchbar"
 import {combineReducers} from "redux"
 
 const allReducers = combineReducers({
-    favorites:FavoriteSongsReducer
+    favorites:FavoriteSongsReducer,
+    searchbar:SearchbarReducer,
     
 })
 

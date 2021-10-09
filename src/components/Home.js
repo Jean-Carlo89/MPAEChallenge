@@ -10,6 +10,7 @@ import{add,remove} from "../Redux/actions/index"
 import {Button,FullSong,FavoriteSong,SongInfo,ActionButtons,SongCover,SongsContainer,Container,Songs} from "./utils/globalComponents"
 import Loader from "react-loader-spinner";
 import "./utils/css/loader.css"
+import Searchbar from "./Searchbar"
 
 export default function Home(){
     const history = useHistory()
@@ -17,16 +18,33 @@ export default function Home(){
    
     const dispatch = useDispatch();
     const [hasMore,setHasMore] = useState(true)
-    const [loading,setLoadding] = useState(true)
+    const [loading,setLoading] = useState(true)
     const [songs,setSongs] = useState([])
     const [favorites,setFavorites]= useState([])
 
+   
+   useEffect(()=>{
+    axios.get("http://localhost:4000/allData")
+    .then((response)=>{
+       const allData = response.data
+       console.log(allData)
+      })
+   },[])
+
+   function Search(){
+    axios.get("http://localhost:4000/allData")
+    .then((response)=>{
+       const allData = response.data
+       console.log(allData)
+      })
+   }
+   
     useEffect(()=>{
         axios.get("http://localhost:4000/topSongs?index=0")
         .then((response)=>{
             const song = response.data.tracks.data
             updateFavorites(song)
-            setLoadding(false)
+            setLoading(false)
           })
     },[])
 
@@ -120,7 +138,8 @@ export default function Home(){
         <>
             <Container>
             <Button onClick={()=>history.push("/favorites")}>Ir para favoritos</Button>
-                <SongsContainer >
+            <Searchbar search={Search} songs={songs} setSongs={setSongs} setLoading={setLoading}/>
+            <SongsContainer >
                     
                 
                 {
@@ -143,9 +162,9 @@ export default function Home(){
                             {songs?.map((song)=>{
                                 return(
                                     <Songs key = {song.id} >
-                                        <SongCover background={song.album.cover_big}/>
+                                        <SongCover background=  {song.cover_big || song.album.cover_big }/>
                                         <SongInfo>
-                                            <p><span>Duração</span>: {getMinutes(song.duration)} </p>
+                                            {song.duration ?<p><span>Duração</span>: {getMinutes(song.duration)} </p> :null}
                                             <p><span>Título</span>: {song.title} </p>
                                             <p><span>Cantor</span>: {song.artist.name} </p>
                                             <ActionButtons>
