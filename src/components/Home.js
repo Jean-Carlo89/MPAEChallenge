@@ -6,36 +6,76 @@ import { useEffect } from "react"
 import {useHistory} from "react-router-dom"
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {useSelector,useDispatch} from "react-redux"
-import{add,remove} from "../Redux/actions/index"
+import{add,remove, updateType} from "../Redux/actions/index"
 import {Button,FullSong,FavoriteSong,SongInfo,ActionButtons,SongCover,SongsContainer,Container,Songs} from "./utils/globalComponents"
 import Loader from "react-loader-spinner";
 import "./utils/css/loader.css"
+import Searchbar from "./Searchbar"
+import{BsFillStarFill} from "react-icons/bs"
 
 export default function Home(){
     const history = useHistory()
     const favorite = useSelector(state=>state.favorites);
-   
+    
+    const type = useSelector(state=>state.searchbar.type);
+    const value = useSelector(state=>state.searchbar.value);
     const dispatch = useDispatch();
+   
     const [hasMore,setHasMore] = useState(true)
-    const [loading,setLoadding] = useState(true)
+    const [loading,setLoading] = useState(true)
     const [songs,setSongs] = useState([])
     const [favorites,setFavorites]= useState([])
 
     useEffect(()=>{
+        if(type==="Top tracks"){
+            searchToptracks()
+            return
+        }
+
+            setLoading(true)
+        axios.get(`http://localhost:4000/allData?type=${type}&search=${value}`)
+            .then((response)=>{
+                console.log("entrou aqui")
+                
+                const song = response.data.data
+                
+                
+                console.log(song)
+                
+               
+               setSongs(updateFavorites(song))
+                
+                setLoading(false)
+            
+            })
+      },[type])
+
+
+      function searchToptracks(){
+        setLoading(true)
         axios.get("http://localhost:4000/topSongs?index=0")
         .then((response)=>{
-            const song = response.data.tracks.data
-            updateFavorites(song)
-            setLoadding(false)
+            
+            setSongs(updateFavorites(response.data.tracks.data))
+            // setLoading(false)
+            setLoading(false)
           })
+      }
+
+   
+    useEffect(()=>{
+        searchToptracks()
     },[])
 
     useEffect(()=>{
-      updateFavorites()
+     setSongs(updateFavorites())
+     //updateFavorites()
     },[favorite])
+
 
    
     function updateFavorites(first){
+        console.log('entrou no favorites')
         let tracks;
         if(first){
             tracks=first
@@ -59,7 +99,8 @@ export default function Home(){
                 )
             }
         })
-        setSongs(newFavorites)
+       return newFavorites
+       // setSongs(newFavorites)
     }
 
 
@@ -86,13 +127,6 @@ export default function Home(){
 }
 
 
-   function Test(){
-        
-    
-    }
-
-      
-
       function getMinutes(time){
         const minutes = Math.floor(time / 60);
 
@@ -106,21 +140,45 @@ export default function Home(){
       }
 
       function fetchData(){
+       console.log(type)
+
+       
+       
+       if(type==="Top tracks" || type ==="initial"){
         axios.get(`http://localhost:4000/topSongs?index=${songs.length}`)
         .then((response)=>{
-            const answer  =  response.data.tracks.data      
+            const answer  =  response.data.tracks.data  
+            console.log(answer)    
             if(answer.length<10){
                 setHasMore(false)
             }
-            setSongs([...songs,...answer])
+
+            setSongs(updateFavorites([...songs,...answer]))
+            //setSongs([...songs,...answer])
+           
         })
+       }else{
+        axios.get(`http://localhost:4000/allData?type=${type}&search=${value}&index=${songs.length}`)
+        .then((response)=>{
+            
+            const answer  =  response.data.data   
+            console.log(answer) 
+            if(answer.length<10){
+                setHasMore(false)
+            }
+            setSongs(updateFavorites([...songs,...answer]))
+            //setSongs([...songs,...answer])
+        })
+       }
+        
       }
    
       return(
         <>
             <Container>
-            <Button onClick={()=>history.push("/favorites")}>Ir para favoritos</Button>
-                <SongsContainer >
+            <Button onClick={()=>history.push("/favorites")}><p>Ir para favoritos </p><BsFillStarFill/></Button>
+            <Searchbar songs={songs} setSongs={setSongs} setLoading={setLoading} updateFavorites={updateFavorites}/>
+            <SongsContainer >
                     
                 
                 {
@@ -133,7 +191,7 @@ export default function Home(){
                     className="loader"
                     />
                     : <InfiniteScroll
-                            dataLength={songs.length}
+                            dataLength={songs?.length}
                             loader={<h4>Carregando mais músicas...</h4>}
                             className="scroller"
                             next={fetchData}
@@ -143,11 +201,11 @@ export default function Home(){
                             {songs?.map((song)=>{
                                 return(
                                     <Songs key = {song.id} >
-                                        <SongCover background={song.album.cover_big}/>
+                                        <SongCover background={song.picture_big  || song.cover_big || song.album.cover_big }/>
                                         <SongInfo>
-                                            <p><span>Duração</span>: {getMinutes(song.duration)} </p>
-                                            <p><span>Título</span>: {song.title} </p>
-                                            <p><span>Cantor</span>: {song.artist.name} </p>
+                                            {song.duration ?<p><span>Duração</span>: {getMinutes(song.duration)} </p> :null}
+                                            {song.title ? <p><span>Título</span>: {song.title} </p>:null}
+                                            <p><span>Cantor</span>: {song.name || song.artist.name} </p>
                                             <ActionButtons>
                                                 <FullSong onClick={()=>toSong(song)}><p>Ver música completa</p></FullSong>
                                                 <Player url={song.preview}/>

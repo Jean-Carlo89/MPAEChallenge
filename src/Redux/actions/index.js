@@ -12,4 +12,17 @@ export const remove = (song)=>{
     }
 }
 
+export const updateType = (newType)=>{
+    return{
+        type:"updateType",
+        newValue:newType
+    }
+}
+
+export const updateValue = (newType)=>{
+    return{
+        type:"updateValue",
+        newValue:newType
+    }
+}
 
