@@ -15,7 +15,7 @@ width: 2048px;
 height:auto;
 display: flex;
 flex-wrap: wrap;
-border:1px solid red;
+
 justify-content: center;
 overflow: auto;
 background-image: url("https://wallpaperaccess.com/full/4729119.png");

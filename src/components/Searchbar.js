@@ -4,11 +4,12 @@ import { useEffect, useState, useRef } from "react";
 import { Link } from 'react-router-dom';
 import {useSelector,useDispatch} from "react-redux"
 import { IoMdArrowDropdown } from 'react-icons/io';
-import{update} from "../Redux/actions/index"
+import{updateType, updateValue} from "../Redux/actions/index"
 
 export default function Searchbar(props) {
     const [isOpen, setIsOpen] = useState(false);
   //const options = props.options
+  
   
   
   const options = [{value:"Top tracks", id:4},{value:"artist",id:1},{value:"album",id:2},{value:"track",id:3}]
@@ -17,38 +18,38 @@ export default function Searchbar(props) {
 
   function onOptionClicked(option)  {
    // props.setSelected(option);
-   dispatch(update(option.value))
+   dispatch(updateType(option.value))
     setIsOpen(false);
   };
    
-    const [value, setValue] = useState("");
+  //  const [value, setValue] = useState("");
+  const value = useSelector(state=>state.searchbar.value);
     let searchRef = useRef();
 
     const type = useSelector(state=>state.searchbar.type);
    
     const dispatch = useDispatch();
 
-    useEffect(()=>{
-        console.log(type)
-    },[])
-    
     function handleKeyPress(e){
-        console.log(e.key)
+    
         if(e.key==="Enter"){
-        //props.setLoading(true)
-
-        axios.get(`http://localhost:4000/allData?type=${type}&search=${value}`)
-        .then((response)=>{
-            console.log("entrou aqui")
-           
-            const song = response.data
-          //  updateFavorites(song)
-         //   setLoadding(false)
-         console.log(song.data)
-         
-         props.setSongs(song.data)
-         //props.setLoading(false)
-          })
+        console.log('entrou aqui')
+            props.setLoading(true)
+            axios.get(`http://localhost:4000/allData?type=${type}&search=${value}`)
+            .then((response)=>{
+                console.log("entrou aqui")
+                
+                const song = response.data.data
+                
+                //   setLoadding(false)
+                console.log(song)
+                
+               // props.setSongs(song)
+               props.setSongs(props.updateFavorites(song))
+                
+                props.setLoading(false)
+            
+            })
         }
         
     }
@@ -61,7 +62,7 @@ export default function Searchbar(props) {
                 placeholder="Search for a song..."
                 value={value}
                 onChange={(e) => {
-                    setValue(e.target.value);
+                     dispatch(updateValue(e.target.value))  
                 }}
             />
             <IoMdArrowDropdown onClick={()=>toggling()}/>
@@ -72,8 +73,8 @@ export default function Searchbar(props) {
                     ? <DropDownListContainer>
                     <DropDownList>
                     {options.map(option => (
-                        <ListItem onClick={()=>onOptionClicked(option)} key={option.id}>
-                        {option.value}
+                        <ListItem onClick={()=>onOptionClicked(option)} key={option.id} background={option.value} type={type}>
+                        Search by:{option.value}
                         </ListItem>
                     ))}
                     </DropDownList>
@@ -157,4 +158,5 @@ const ListItem = styled.li`
   z-index: 2;
   margin-bottom: 0.8em;
   text-transform: capitalize;
+  background-color: ${props=>props.background===props.type ? "orange": "white" };
 `;

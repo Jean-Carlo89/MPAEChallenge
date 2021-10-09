@@ -1,13 +1,24 @@
 const initialState ={
   value:"",
-  type:""
+  type:"initial"
 }
 
 const SearchbarReducer =  (state=initialState, action) =>{
-        if(action.type==="update"){
+        if(action.type==="updateType"){
             
             return { 
+                ...state,
                 type:action.newValue
+                
+            }
+        }
+
+        if(action.type==="updateValue"){
+            
+            return { 
+                ...state,
+                value:action.newValue
+                
                 
             }
         }
