@@ -29,7 +29,7 @@ export default function Searchbar(props) {
         if(e.key==="Enter"){
         console.log('entrou aqui')
             props.setLoading(true)
-            axios.get(`http://localhost:4000/allData?type=${type}&search=${value}`)
+            axios.get(`${process.env.REACT_APP_API_BASE_URL}/allData?type=${type}&search=${value}`)
             .then((response)=>{
                 
                 const song = response.data.data
