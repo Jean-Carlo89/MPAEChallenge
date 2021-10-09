@@ -112,7 +112,7 @@ const SearchHolder = styled.div`
     @media(max-width: 750px){
         width: 100%;
     }
-    border: 1px solid red;
+   
     position: fixed;
     z-index: 4;
 

@@ -26,6 +26,13 @@ export default function Home(){
     const [songs,setSongs] = useState([])
     const [favorites,setFavorites]= useState([])
 
+
+
+    useEffect(()=>{
+        searchToptracks()
+    },[])
+
+
     useEffect(()=>{
         if(type==="Top tracks"){
             searchToptracks()
@@ -33,7 +40,7 @@ export default function Home(){
         }
 
             setLoading(true)
-        axios.get(`${process.env.REACT_APP_API_BASE_URL}/allData?type=${type}&search=${value}`)
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/allData?type=${type}&search=${value}`,{})
             .then((response)=>{
                 console.log("entrou aqui")
                 
@@ -53,7 +60,7 @@ export default function Home(){
 
       function searchToptracks(){
         setLoading(true)
-        axios.get("${process.env.REACT_APP_API_BASE_URL}/topSongs?index=0")
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/topSongs?index=0`)
         .then((response)=>{
             
             setSongs(updateFavorites(response.data.tracks.data))
@@ -63,10 +70,7 @@ export default function Home(){
       }
 
    
-    useEffect(()=>{
-        searchToptracks()
-    },[])
-
+   
     useEffect(()=>{
      setSongs(updateFavorites())
      //updateFavorites()
