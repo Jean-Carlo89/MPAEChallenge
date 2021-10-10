@@ -11,7 +11,7 @@ try out in (https://mpaec-hallenge.vercel.app/)
 
    ### `npm i`
 
-5. Like in .env.example,  create a .env file with the localhost url you set in the back-end or with: https://mpae.herokuapp.com; 
+5. Like in .env.example,  create a .env file with the localhost url you set in the back-end or with: https://mpae.herokuapp.com ; 
 6. Run the front-end with
 
    ### `npm start`
