@@ -1,13 +1,12 @@
 
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import GlobalStyle from "./utils/globalStyles"
+
 /*components*/
 import Home from "./Home"
 import Favorites from "./Favorites"
 function App() {
   
-  
-
   return (
   <Router>    
     <GlobalStyle />

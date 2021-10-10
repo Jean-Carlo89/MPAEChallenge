@@ -6,13 +6,13 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import{updateType, updateValue} from "../Redux/actions/index"
 
 export default function Searchbar(props) {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const options = [{value:"Top tracks", id:4},{value:"artist",id:1},{value:"album",id:2},{value:"track",id:3}]
   
   const toggling = () => setIsOpen(!isOpen);
 
   function onOptionClicked(option)  {
-   dispatch(updateType(option.value))
+    dispatch(updateType(option.value))
     setIsOpen(false);
   };
    
@@ -27,14 +27,11 @@ export default function Searchbar(props) {
     function handleKeyPress(e){
     
         if(e.key==="Enter"){
-        console.log('entrou aqui')
             props.setLoading(true)
             axios.get(`${process.env.REACT_APP_API_BASE_URL}/allData?type=${type}&search=${value}`)
             .then((response)=>{
                 
                 const song = response.data.data
-                
-                console.log(song)
                 
                props.setSongs(props.updateFavorites(song))
                 
@@ -50,7 +47,7 @@ export default function Searchbar(props) {
             <Input
                 onKeyPress={(e)=>handleKeyPress(e)}
                 ref={props.ref}
-                placeholder="Search for a song..."
+                placeholder="Search for a song,album,artist..."
                 value={value}
                 onChange={(e) => {
                      dispatch(updateValue(e.target.value))  

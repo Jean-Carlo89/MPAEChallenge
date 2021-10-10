@@ -4,7 +4,6 @@ const Container = styled.div`
     min-height: 100vh;
     height: auto;
     display: flex;
-   // align-items: center;
     justify-content: center;
     background-color:#222222;
     
@@ -23,8 +22,7 @@ opacity: 0.95;
 margin-top: 80px;
 
 @media(max-width:2080px){
-    //background-repeat:repeat-y;
-   //background-repeat:repeat-x;
+    
    width: 95%;
    background-size: 100% auto;
 }
@@ -34,9 +32,6 @@ margin-top: 80px;
 const Songs= styled.li`
 border: 4px solid;
 border-image:linear-gradient(227.91deg,#106AF2 0%,#00E0FF 100%) 1;
-//display: inline-block;
-//height: 738px;
-//min-height: auto;
 height: fit-content;
 max-height:738px;
 margin:20px 100px;

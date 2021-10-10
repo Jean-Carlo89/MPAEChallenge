@@ -24,12 +24,10 @@ export default function Home(){
     const [hasMore,setHasMore] = useState(true)
     const [loading,setLoading] = useState(true)
     const [songs,setSongs] = useState([])
-    const [favorites,setFavorites]= useState([])
-
-
+    
 
     useEffect(()=>{
-        searchToptracks()
+        searchToptracks();
     },[])
 
 
@@ -44,22 +42,14 @@ export default function Home(){
             return
         }
 
-            setLoading(true)
+        setLoading(true)
         axios.get(`${process.env.REACT_APP_API_BASE_URL}/allData?type=${type}&search=${value}`,{})
-            .then((response)=>{
-                console.log("entrou aqui")
-                
-                const song = response.data.data
-                
-                
-                console.log(song)
-                
-               
-               setSongs(updateFavorites(song))
-                
-                setLoading(false)
-            
-            })
+        .then((response)=>{
+            const song = response.data.data
+            setSongs(updateFavorites(song))
+
+            setLoading(false)
+        })
       },[type])
 
 
@@ -69,7 +59,6 @@ export default function Home(){
         .then((response)=>{
             
             setSongs(updateFavorites(response.data.tracks.data))
-            // setLoading(false)
             setLoading(false)
           })
       }
@@ -78,13 +67,12 @@ export default function Home(){
    
     useEffect(()=>{
      setSongs(updateFavorites())
-     //updateFavorites()
     },[favorite])
 
 
    
     function updateFavorites(first){
-        console.log('entrou no favorites')
+       
         let tracks;
         if(first){
             tracks=first
@@ -109,7 +97,6 @@ export default function Home(){
             }
         })
        return newFavorites
-       // setSongs(newFavorites)
     }
 
 
@@ -149,21 +136,16 @@ export default function Home(){
       }
 
       function fetchData(){
-       console.log(type)
-
-       
-       
+    
        if(type==="Top tracks" || type ==="initial"){
         axios.get(`${process.env.REACT_APP_API_BASE_URL}/topSongs?index=${songs.length}`)
         .then((response)=>{
-            const answer  =  response.data.tracks.data  
-            console.log(answer)    
+            const answer  =  response.data.tracks.data    
             if(answer.length<10){
                 setHasMore(false)
             }
 
             setSongs(updateFavorites([...songs,...answer]))
-            //setSongs([...songs,...answer])
            
         })
        }else{
@@ -171,12 +153,11 @@ export default function Home(){
         .then((response)=>{
             
             const answer  =  response.data.data   
-            console.log(answer) 
             if(answer.length<10){
                 setHasMore(false)
             }
             setSongs(updateFavorites([...songs,...answer]))
-            //setSongs([...songs,...answer])
+           
         })
        }
         
@@ -185,11 +166,9 @@ export default function Home(){
       return(
         <>
             <Container>
-            <Button onClick={()=>history.push("/favorites")}><p>Ir para favoritos </p><BsFillStarFill/></Button>
-            <Searchbar songs={songs} setSongs={setSongs} setLoading={setLoading} updateFavorites={updateFavorites}/>
-            <SongsContainer >
-                    
-                
+                <Button onClick={()=>history.push("/favorites")}><p>Ir para favoritos </p><BsFillStarFill/></Button>
+                <Searchbar songs={songs} setSongs={setSongs} setLoading={setLoading} updateFavorites={updateFavorites}/>
+                <SongsContainer >
                 {
                     loading 
                     ? <Loader
@@ -227,9 +206,7 @@ export default function Home(){
                 
                             }
                         </InfiniteScroll>
-                }
-
-                    
+                } 
                 </SongsContainer>
             </Container>
         </>

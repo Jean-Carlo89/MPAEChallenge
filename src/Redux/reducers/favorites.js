@@ -18,8 +18,6 @@ const FavoriteSongsReducer =  (state=initialState, action) =>{
                 return item
               }
           })
-          console.log('filtered')
-          console.log(filtered)
           return {
               ...state,
               arr:filtered
